@@ -26,3 +26,9 @@ In the >> example << directory are excerpts from Mark Manson’s book The Subtle
 … BLAH BLAH … means this except is apart of a larger.  The … before means it is part of the slide before and the trailing … means the next is connected to it.  
 
 … BLAH BLAH means this except is apart of a larger.  The … before means it is part of the slide before.
+
+] CONNECT [
+
+https://www.facebook.com/motiondesignstudio/
+https://www.youtube.com/motiondesignstudio/
+https://www.instagram.com/motiondesignstudio/
