@@ -30,5 +30,7 @@ In the >> example << directory are excerpts from Mark Manson’s book The Subtle
 ] CONNECT [
 
 https://www.facebook.com/motiondesignstudio/
+
 https://www.youtube.com/motiondesignstudio/
+
 https://www.instagram.com/motiondesignstudio/
