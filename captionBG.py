@@ -8,6 +8,11 @@ from subprocess import PIPE, run
 #excerptTitle = 'Robert F. Williams, Negroes With Guns :\n'
 #excerptTitle = 'How to Be an Adult in Relationships:\n'
 excerptTitle = 'The Subtle Art of Not Giving a F*ck:\n'
+#excerptTitle = 'Outrageous Openness:\n'
+#authorsName = 'Tosha Silver'
+authorsName = 'Mark Manson'
+
+externalFileToRegexOver = "My Clippings.txt"
 
 minumumNumberOfWordsForExcerpt = 10
 maxNumberOfWordsForExcerpt = 70
@@ -52,9 +57,9 @@ def paginate (theString, myRange, sumOfPages):
 			
 			theFileName = str (numIterations)+".png"
 			pgNumber = str ( numIterations )+"/"+str( sumOfPages )
+		
 			
-			# Print the excerpt to an image
-			subprocess.call ('convert bgPapaer.jpg \( -size 950x950 -background "rgba(0,0,0,0)" -font /home/lex/share/Mo_De_Studio/audio_blog/OpenSans/OpenSans-ExtraBold.ttf -fill "#000000" caption:"%s" \( +clone -shadow 0x0+0+0 \) +swap -background "rgba(0,0,0,0)" -layers merge +repage \) -gravity center -composite -gravity northeast -pointsize 60 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +30+0 "%s" %s' % (finalString, pgNumber, theFileName), shell=True )
+			subprocess.call ('convert bgPapaer.jpg \( -size 950x950 -background "rgba(0,0,0,0)" -font /home/lex/share/Mo_De_Studio/audio_blog/OpenSans/OpenSans-ExtraBold.ttf -fill "#000000" caption:"%s" \( +clone -shadow 0x0+0+0 \) +swap -background "rgba(0,0,0,0)" -layers merge +repage \) -gravity center -composite -gravity northwest -pointsize 60 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +30+0 "%s" -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 "%s" %s' % (finalString, pgNumber, authorsName,theFileName), shell=True )
 				
 			print ( finalString )
 			
@@ -92,8 +97,8 @@ def paginate (theString, myRange, sumOfPages):
 	#rint ( pgNumber )
 	
 	print ( finalString )
-	
-	subprocess.call ('convert bgPapaer.jpg \( -size 950x950 -background "rgba(0,0,0,0)" -font /home/lex/share/Mo_De_Studio/audio_blog/OpenSans/OpenSans-ExtraBold.ttf -fill "#000000" caption:"%s" \( +clone -shadow 0x0+0+0 \) +swap -background "rgba(0,0,0,0)" -layers merge +repage \) -gravity center -composite -gravity northeast -pointsize 60 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +30+0 "%s" %s' % (finalString, pgNumber, theFileName), shell=True )
+		
+	subprocess.call ('convert bgPapaer.jpg \( -size 950x950 -background "rgba(0,0,0,0)" -font /home/lex/share/Mo_De_Studio/audio_blog/OpenSans/OpenSans-ExtraBold.ttf -fill "#000000" caption:"%s" \( +clone -shadow 0x0+0+0 \) +swap -background "rgba(0,0,0,0)" -layers merge +repage \) -gravity center -composite -gravity northwest -pointsize 60 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +30+0 "%s" -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 "%s" %s' % (finalString, pgNumber, authorsName,theFileName), shell=True )
 	
 
 # Count number of pages
@@ -122,13 +127,12 @@ def countNumPages ( theString, myRange ):
 	
 # Open file for regex
 
-externalFile = Path("My Clippings.txt").read_text()
-#externalFile = Path("NWGshare.txt").read_text()
-#externalFile = Path("exTxt.txt").read_text()
+externalFile = Path( externalFileToRegexOver ).read_text()
 	
 #pattern = re.findall(r'^Negroes With Guns[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
 #pattern = re.findall(r'^How to Be an Adult[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
 pattern = re.findall(r'^The Subtle Art of Not[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
+#pattern = re.findall(r'^Outrageous Openness[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
 
 sumOfPage=0
 # This variable is to show how many excerpts from the original
