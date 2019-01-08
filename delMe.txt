@@ -1,0 +1,38 @@
+
+
+
+Version II
+
+- feed a file commandline for turing into caption
+	- Submit File
+	- Submit String
+	- Print By Character Count or Number Of Words
+	- Set starting counter for denominator
+	- set starting number for numberator
+	- Set author name for tile
+	- Set string to search for in Kindle "My Clippings.txt" file
+	- Set minumum number character(s) or word(s)
+	- Set maximum number character(s) or word(s)
+- Word frequency
+- turn to classes
+	- Number of word(s) [ DONE ]
+	- Number of character(s) [ DONE ]
+	- Number of tiles [ DONE ]
+	- Array of strings for each excerpt [ DONE ]
+
+- count number of characters [ DONE ]
+- enable tiling by number of word or number of characters
+- save all failed tiles as an array for display that did not meet the length requirements [ DONE ]
+- create tiles of failed criteria
+
+- regex for Mycliiplngs file [ DONE ]
+- Count number words in excerpt [ DONE ]
+- convert command use bg image [ DONE ]
+- paginate [ DONE ]
+- title variable [ DONE ]
+
+- check is commandline options are valid
+	- sanity check file type if string is passed 
+
+bugs
+- certain strings can break the caption if special characters are in the excerpt
