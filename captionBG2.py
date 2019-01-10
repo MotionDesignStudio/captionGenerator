@@ -12,14 +12,16 @@ import math
 #excerptTitle = 'The 48 Laws of Power:\n'
 #excerptTitle = 'Negroes With Guns:\n'
 #excerptTitle = 'Outrageous Openness:\n'
-excerptTitle = 'The Subtle Art of Not Giving a F*ck:\n'
+#excerptTitle = 'The Subtle Art of Not Giving a F*ck:\n'
+excerptTitle = 'Flow:\n'
 #authorsName = 'Tosha Silver'
-authorsName = 'Mark Manson'
+#authorsName = 'Mark Manson'
 #authorsName = 'Robert Greene; Joost Elffers'
 #authorsName = 'Robert F Williams'
+authorsName = 'Mihaly Csikszentmihalyi'
 
 #externalFileToRegexOver = "My Clippings.txt"
-externalFileToRegexOver = "mcSMALL.txt"
+externalFileToRegexOver = "smallExample.txt"
 
 minumumNumberOfWordsForExcerpt = 10
 maxNumberOfWordsForExcerpt = 70
@@ -29,7 +31,8 @@ numIterations=0
 # Open file for regex
 externalFile = Path( externalFileToRegexOver ).read_text()
 #pattern = re.findall(r'^Negroes With Guns[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
-pattern = re.findall(r'^The Subtle Art of Not[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
+#pattern = re.findall(r'^The Subtle Art of Not[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
+pattern = re.findall(r'^Flow: The Psychology of Optimal Experience[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
 #pattern = re.findall(r'^Getting to Maybe[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
 #pattern = re.findall(r'^The 48 Laws of Power[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
 
@@ -67,7 +70,6 @@ class MyExcerpt:
 		
 	def returnOmitted (self):
 		if ( self.numberWords()<self.minWrdsOrStr ):
-			#return ( "OMITTING OMITTING : %s" % ( self.myCaption ) )
 			return self.myCaption
 	
 	
@@ -90,76 +92,47 @@ class MyExcerpt:
 		# word(s) length
 		if ( self.numberWords()>self.minWrdsOrStr ):
 			while ( len ( listOfWords ) ) :
-				
-				#print (" doOnce ::::: %s" % (doOnce))
-				
-				# I am checking for the following conditions if this is the first time into the loop and there are more tiles to create after
-				# add three dots after
-				#if ( doOnce and len ( listOfWords ) >self.maxWrdsOrStr ):
-				#	postDots="..."
-				#	doOnce=False
-					
-				#if ( doOnce==False and len ( listOfWords ) >self.maxWrdsOrStr ):
-				#	preDots="..."
-				#	postDots="..."
-				
-				#listToReturn.append( preDots + "".join ( listOfWords[ :self.maxWrdsOrStr ] ) + postDots  )
 				listToReturn.append( "".join ( listOfWords[ :self.maxWrdsOrStr ] )  )
 				del listOfWords[ :self.maxWrdsOrStr ]
-				
-				# If there is only enough for one exerpt do not add three ...
-				#if ( len ( listOfWords ) < self.maxWrdsOrStr ):
-					#listToReturn.append( "".join ( listOfWords[ :self.maxWrdsOrStr ] )  )
-				#else:
-					#listToReturn.append( "".join ( listOfWords[ :self.maxWrdsOrStr ] )  +"...")
-				#del listOfWords[ :self.maxWrdsOrStr ]
-				
-				# Reset variables
-				#preDots=""
-				#postDots=""
 				
 			return listToReturn
 	
 	
 	def addLDotsistOfExcerpt4Pagination(self):
-		#self.listOfExcerpt4Pagination()
-		#print ("TEST TEST ::: %s" % ( self.listOfExcerpt4Pagination() ) )
-		print ("TEST TEST ::: %s" % ( len ( self.listOfExcerpt4Pagination() ) ) )
-		
-		#These varaible stores the pre and post ...
-		preDots=""
-		postDots=""
-		
-		# Length of list variable  
-		lengthOfList = len ( self.listOfExcerpt4Pagination() ) 
-		
-		
-		# Check the array is longer than one tile
-		if (  len ( self.listOfExcerpt4Pagination() ) > 1 ) :
-			
-			for i in range (lengthOfList) :
-			#print ( i, end="")
-			#print ( "%s : %s" % ( i, self.listOfExcerpt4Pagination()[i] )  )
-				if (i == 0 ):
-					print ( self.listOfExcerpt4Pagination()[i] +"..." )
+		listWithDots=[]
+		# This stop the error of None text being found and sent for processing
+		if ( self.listOfExcerpt4Pagination() ):
 				
-				
-				
-				
-			# This is for list of the length 2
-			#if (  len ( self.listOfExcerpt4Pagination() ) == 2 ) :
-				
-			
-			# If longer than one tile
-			#for copy in self.listOfExcerpt4Pagination() :
-				
-			
-		
-#print ( mainData.numberWords() )
-#print ( mainData.numberOfCharacters() )
-#print ( mainData.numberOfCharacters() )
-#print ( mainData.numExcerptsByWord() )
+			# Length of list variable  
+			lengthOfList = len ( self.listOfExcerpt4Pagination() ) 
 
+			# Check the array is one in length
+			if (  len ( self.listOfExcerpt4Pagination() ) == 1 ) :
+				listWithDots.append( self.listOfExcerpt4Pagination()[0] )
+		
+			# Check the array is two in length
+			if (  len ( self.listOfExcerpt4Pagination() ) == 2 ) :
+				listWithDots.append(self.listOfExcerpt4Pagination()[0]+"...")
+				listWithDots.append( "..."+self.listOfExcerpt4Pagination()[1] )
+			
+			# Check the array is three in length or greater
+			if (  len ( self.listOfExcerpt4Pagination() ) > 2 ) :
+				# First position
+				#print (self.listOfExcerpt4Pagination()[0]+"...")
+				
+				listWithDots.append(self.listOfExcerpt4Pagination()[0]+"...")
+				
+				#print (self.listOfExcerpt4Pagination()[2]+"...")
+				
+				# I subtract one as to not add trailing three dots
+				for i in range (1,lengthOfList-1):
+					#print ("..."+self.listOfExcerpt4Pagination()[i]+"...")
+					listWithDots.append( "..."+self.listOfExcerpt4Pagination()[i]+"..." )
+				
+				listWithDots.append(  "..."+self.listOfExcerpt4Pagination()[lengthOfList-1]  )
+				#print ("..."+self.listOfExcerpt4Pagination()[lengthOfList-1] )
+		return listWithDots
+								
 # Totoal number of excerpt(s) I will print
 sumOfExcerpts = 0
 # Totoal number of excerpt(s) found in original document
@@ -191,17 +164,16 @@ for excerpt in pattern:
 	
 	# Check that its value is not None
 	if ( mainData.listOfExcerpt4Pagination() ):
-	
-		for copy in  mainData.listOfExcerpt4Pagination() :			
+		
+		# I want to return the exerpts with dots here		
+		for copy in mainData.addLDotsistOfExcerpt4Pagination() :			
+		#for copy in mainData.listOfExcerpt4Pagination() :			
 			displayedList.append(copy)
-			
-			#mainData.addLDotsistOfExcerpt4Pagination()
 			
 	if ( mainData.returnOmitted() ):
 		listOfOmitted.append ( mainData.returnOmitted() )
 	
-	# I want return the exerpts with dot here
-	mainData.addLDotsistOfExcerpt4Pagination()
+
 	
 	#mainData.sumOfTiles()
 	#print ( type ( mainData.numExcerptsByWord() ) )
@@ -215,11 +187,11 @@ for copy in displayedList:
 	# This creates a name for the image
 	theFileName2 = str (pnum)+".png"
 	
-	# DIsplay what is being placed on tile
+	# Display what is being placed on tile
 	print ( excerptTitle + copy )
 	
 	# Add excerpt to the image
-	#subprocess.call ('convert bgPapaer.jpg \( -size 950x950 -background "rgba(0,0,0,0)" -font /home/lex/share/Mo_De_Studio/audio_blog/OpenSans/OpenSans-ExtraBold.ttf -fill "#000000" caption:"%s" \( +clone -shadow 0x0+0+0 \) +swap -background "rgba(0,0,0,0)" -layers merge +repage \) -gravity center -composite -gravity northwest -pointsize 60 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +30+0 "%s" -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 "%s" %s' % (excerptTitle + copy , str( pnum )+"/"+ str (sumOfExcerpts), authorsName,theFileName2), shell=True )
+	subprocess.call ('convert bgPapaer.jpg \( -size 950x950 -background "rgba(0,0,0,0)" -font /home/lex/share/Mo_De_Studio/audio_blog/OpenSans/OpenSans-ExtraBold.ttf -fill "#000000" caption:"%s" \( +clone -shadow 0x0+0+0 \) +swap -background "rgba(0,0,0,0)" -layers merge +repage \) -gravity center -composite -gravity northwest -pointsize 60 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +30+0 "%s" -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 "%s" %s' % (excerptTitle + copy , str( pnum )+"/"+ str (sumOfExcerpts), authorsName,theFileName2), shell=True )
 
 # Stats	
 print ( '"%s" | %s Excerpt(s) Pages | %s From Origin Document' % ( excerptTitle[0:-2] ,sumOfExcerpts, sumPrintable ), end ="\n\n" )
