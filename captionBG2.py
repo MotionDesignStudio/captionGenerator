@@ -5,6 +5,7 @@ from pathlib import Path
 import subprocess
 from subprocess import PIPE, run
 import math
+from shlex import quote
 
 #excerptTitle = 'Robert F. Williams, Negroes With Guns :\n'
 #excerptTitle = 'How to Be an Adult in Relationships:\n'
@@ -13,7 +14,8 @@ import math
 #excerptTitle = 'Negroes With Guns:\n'
 #excerptTitle = 'Outrageous Openness:\n'
 #excerptTitle = 'The Subtle Art of Not Giving a F*ck:\n'
-excerptTitle = 'Flow:\n'
+#excerptTitle = 'Flow: The Psychology of Optimal Experience'
+excerptTitle = quote('Flow: The Psychology of Optimal Experience')
 #authorsName = 'Tosha Silver'
 #authorsName = 'Mark Manson'
 #authorsName = 'Robert Greene; Joost Elffers'
@@ -180,7 +182,8 @@ for excerpt in pattern:
 	#mainData.sumOfTiles()
 
 	# Stats
-print ( '"%s" | %s Excerpt(s) Pages | %s From Origin Document' % ( excerptTitle[0:-2] ,sumOfExcerpts, sumPrintable ), end ="\n\n" )
+#print ( '"%s" | %s Excerpt(s) Pages | %s From Origin Document' % ( excerptTitle[0:-2] ,sumOfExcerpts, sumPrintable ), end ="\n\n" )
+print ( '"%s" | %s Excerpt(s) Pages | %s From Origin Document' % ( excerptTitle ,sumOfExcerpts, sumPrintable ), end ="\n\n" )
 
 for copy in displayedList:
 	pnum+=1
@@ -188,13 +191,19 @@ for copy in displayedList:
 	theFileName2 = str (pnum)+".png"
 	
 	# Display what is being placed on tile
-	print ( excerptTitle + copy )
+	print ( excerptTitle+"\n" + copy )
+	
+	
+	#convert bgPapaer.jpg \( -size 950x950 -background "rgba(0,0,0,0)" -font /home/lex/share/Mo_De_Studio/audio_blog/OpenSans/OpenSans-ExtraBold.ttf -fill "#000000" caption:"$(cat ./temp.txt)" \( +clone -shadow 0x0+0+0 \) +swap -background "rgba(0,0,0,0)" -layers merge +repage \) -gravity center -composite -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+50 "1/232" -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 "Robert Greene, Joost Elffers" -gravity north -pointsize 30 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 "Flow: The Psychology of Optimal Experience" r2.png
 	
 	# Add excerpt to the image
-	subprocess.call ('convert bgPapaer.jpg \( -size 950x950 -background "rgba(0,0,0,0)" -font /home/lex/share/Mo_De_Studio/audio_blog/OpenSans/OpenSans-ExtraBold.ttf -fill "#000000" caption:"%s" \( +clone -shadow 0x0+0+0 \) +swap -background "rgba(0,0,0,0)" -layers merge +repage \) -gravity center -composite -gravity northwest -pointsize 60 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +30+0 "%s" -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 "%s" %s' % (excerptTitle + copy , str( pnum )+"/"+ str (sumOfExcerpts), authorsName,theFileName2), shell=True )
+	subprocess.call ('convert bgPapaer.jpg \( -size 950x950 -background "rgba(0,0,0,0)" -font /home/lex/share/Mo_De_Studio/audio_blog/OpenSans/OpenSans-ExtraBold.ttf -fill "#000000" caption:"%s" \( +clone -shadow 0x0+0+0 \) +swap -background "rgba(0,0,0,0)" -layers merge +repage \) -gravity center -composite -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+60 "%s" -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 "%s" -gravity north -pointsize 30 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 %s %s' % ( copy , str( pnum )+"/"+ str (sumOfExcerpts), authorsName, excerptTitle, theFileName2), shell=True )
+	
+	#subprocess.call ('convert bgPapaer.jpg \( -size 950x950 -background "rgba(0,0,0,0)" -font /home/lex/share/Mo_De_Studio/audio_blog/OpenSans/OpenSans-ExtraBold.ttf -fill "#000000" caption:"%s" \( +clone -shadow 0x0+0+0 \) +swap -background "rgba(0,0,0,0)" -layers merge +repage \) -gravity center -composite -gravity northwest -pointsize 60 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +30+0 "%s" -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 "%s" %s' % (excerptTitle + copy , str( pnum )+"/"+ str (sumOfExcerpts), authorsName,theFileName2), shell=True )
 
 # Stats	
-print ( '"%s" | %s Excerpt(s) Pages | %s From Origin Document' % ( excerptTitle[0:-2] ,sumOfExcerpts, sumPrintable ), end ="\n\n" )
+#print ( '"%s" | %s Excerpt(s) Pages | %s From Origin Document' % ( excerptTitle[0:-2] ,sumOfExcerpts, sumPrintable ), end ="\n\n" )
+print ( '"%s" | %s Excerpt(s) Pages | %s From Origin Document' % ( excerptTitle ,sumOfExcerpts, sumPrintable ), end ="\n\n" )
 
 # Display what was ommited if list is not blank
 if (listOfOmitted ):

@@ -7,6 +7,9 @@ I will add more functionality and restructure the script to use classes.
 
 Thanks and keep reading to free yourself from yourself.
 
+] Dependencies  [
+- imagemagick , python3
+
 ] USAGE Version 1.0 [
 
 This variable is the name of the book printed at the top of each excerpt.
