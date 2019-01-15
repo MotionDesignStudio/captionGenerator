@@ -6,6 +6,7 @@ import subprocess
 from subprocess import PIPE, run
 import math
 from shlex import quote
+import os
 
 #excerptTitle = 'Robert F. Williams, Negroes With Guns :\n'
 #excerptTitle = 'How to Be an Adult in Relationships:\n'
@@ -16,11 +17,13 @@ from shlex import quote
 #excerptTitle = 'The Subtle Art of Not Giving a F*ck:\n'
 #excerptTitle = 'Flow: The Psychology of Optimal Experience'
 excerptTitle = quote('Flow: The Psychology of Optimal Experience')
+#excerptTitle = quote('The Matrix as Metaphysics')
 #authorsName = 'Tosha Silver'
 #authorsName = 'Mark Manson'
 #authorsName = 'Robert Greene; Joost Elffers'
 #authorsName = 'Robert F Williams'
 authorsName = 'Mihaly Csikszentmihalyi'
+#authorsName = 'David J. Chalmers'
 
 #externalFileToRegexOver = "My Clippings.txt"
 externalFileToRegexOver = "smallExample.txt"
@@ -30,14 +33,29 @@ maxNumberOfWordsForExcerpt = 70
 	
 numIterations=0
 
+# This is number of second to subtract for creation and modifaction time
+# This is used to force Facebook to display the files from 1 to XXX.
+enableFacebookTimeStamp=True
+startTime =1546300800
+adjustedTimeStampBy=1000
+
 # Open file for regex
 externalFile = Path( externalFileToRegexOver ).read_text()
 #pattern = re.findall(r'^Negroes With Guns[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
 #pattern = re.findall(r'^The Subtle Art of Not[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
 pattern = re.findall(r'^Flow: The Psychology of Optimal Experience[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
+#pattern = re.findall(r'^﻿Microsoft Word - matrix[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
 #pattern = re.findall(r'^Getting to Maybe[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
 #pattern = re.findall(r'^The 48 Laws of Power[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
 
+#os.utime("1.png", ( 1546300800, 1546300800 ))
+#os.utime("2.png", ( 1546299800, 1546299800 ))
+#os.utime("3.png", ( 1546298800, 1546298800 ))
+#os.utime("4.png", ( 1546297800, 1546297800 ))
+#os.utime("5.png", ( 1546296800, 1546296800 ))
+#if ( enableFacebookTimeStamp ):
+	#startTime-=adjustedTimeStampBy
+	#os.utime("1.png", ( startTime , startTime ))
 
 class MyExcerpt:
 	# Initialize instance attributes
@@ -192,14 +210,13 @@ for copy in displayedList:
 	
 	# Display what is being placed on tile
 	print ( excerptTitle+"\n" + copy )
-	
-	
-	#convert bgPapaer.jpg \( -size 950x950 -background "rgba(0,0,0,0)" -font /home/lex/share/Mo_De_Studio/audio_blog/OpenSans/OpenSans-ExtraBold.ttf -fill "#000000" caption:"$(cat ./temp.txt)" \( +clone -shadow 0x0+0+0 \) +swap -background "rgba(0,0,0,0)" -layers merge +repage \) -gravity center -composite -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+50 "1/232" -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 "Robert Greene, Joost Elffers" -gravity north -pointsize 30 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 "Flow: The Psychology of Optimal Experience" r2.png
-	
+		
 	# Add excerpt to the image
-	subprocess.call ('convert bgPapaer.jpg \( -size 950x950 -background "rgba(0,0,0,0)" -font /home/lex/share/Mo_De_Studio/audio_blog/OpenSans/OpenSans-ExtraBold.ttf -fill "#000000" caption:"%s" \( +clone -shadow 0x0+0+0 \) +swap -background "rgba(0,0,0,0)" -layers merge +repage \) -gravity center -composite -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+60 "%s" -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 "%s" -gravity north -pointsize 30 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 %s %s' % ( copy , str( pnum )+"/"+ str (sumOfExcerpts), authorsName, excerptTitle, theFileName2), shell=True )
+	subprocess.call ('convert bgPapaer.jpg \( -size 950x950 -background "rgba(0,0,0,0)" -font /home/lex/share/Mo_De_Studio/audio_blog/OpenSans/OpenSans-ExtraBold.ttf -fill "#000000" caption:"%s" \( +clone -shadow 0x0+0+0 \) +swap -background "rgba(0,0,0,0)" -layers merge +repage \) -gravity center -composite -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+60 "%s" -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 "%s" -gravity north -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 %s %s' % ( copy , str( pnum )+"/"+ str (sumOfExcerpts), authorsName, excerptTitle, theFileName2), shell=True )
 	
-	#subprocess.call ('convert bgPapaer.jpg \( -size 950x950 -background "rgba(0,0,0,0)" -font /home/lex/share/Mo_De_Studio/audio_blog/OpenSans/OpenSans-ExtraBold.ttf -fill "#000000" caption:"%s" \( +clone -shadow 0x0+0+0 \) +swap -background "rgba(0,0,0,0)" -layers merge +repage \) -gravity center -composite -gravity northwest -pointsize 60 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +30+0 "%s" -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 "%s" %s' % (excerptTitle + copy , str( pnum )+"/"+ str (sumOfExcerpts), authorsName,theFileName2), shell=True )
+	if ( enableFacebookTimeStamp ):
+		startTime-=adjustedTimeStampBy
+		os.utime(theFileName2 , ( startTime , startTime ))
 
 # Stats	
 #print ( '"%s" | %s Excerpt(s) Pages | %s From Origin Document' % ( excerptTitle[0:-2] ,sumOfExcerpts, sumPrintable ), end ="\n\n" )
