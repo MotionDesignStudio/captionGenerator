@@ -10,6 +10,13 @@ Thanks and keep reading to free yourself from yourself.
 ] Dependencies  [
 - imagemagick , python3
 
+
+] USAGE Version 3.0 [
+
+./captionBG3.py -c "My Clippings.txt" -a "Mark Manson" -t "The Subtle Art of Not Giving a F*ck" -e "The Subtle Art of Not Giving"
+
+
+
 ] USAGE Version 1.0 [
 
 This variable is the name of the book printed at the top of each excerpt.

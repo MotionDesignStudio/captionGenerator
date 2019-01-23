@@ -11,96 +11,22 @@ import os
 #import sys, getopt
 import argparse
 
-#excerptTitle = 'Robert F. Williams, Negroes With Guns :\n'
-#excerptTitle = 'How to Be an Adult in Relationships:\n'
-#excerptTitle = 'Getting to Maybe:\n'
-#excerptTitle = 'The 48 Laws of Power:\n'
-#excerptTitle = 'Negroes With Guns:\n'
-#excerptTitle = 'Outrageous Openness:\n'
-#excerptTitle = 'The Subtle Art of Not Giving a F*ck:\n'
-#excerptTitle = 'Flow: The Psychology of Optimal Experience'
-#excerptTitle = quote('Flow: The Psychology of Optimal Experience')
-#excerptTitle = quote('The Matrix as Metaphysics')
-#authorsName = 'Tosha Silver'
-#authorsName = 'Mark Manson'
-#authorsName = 'Robert Greene; Joost Elffers'
-#authorsName = 'Robert F Williams'
-#authorsName = 'Mihaly Csikszentmihalyi'
-#authorsName = 'David J. Chalmers'
 
-
-authorsName = ''
-excerptTitle = ''
-
-#externalFileToRegexOver = "My Clippings.txt"
-#externalFileToRegexOver = "smallExample.txt"
-externalFileToRegexOver = ""
-
-minumumNumberOfWordsForExcerpt = 10
-maxNumberOfWordsForExcerpt = 70
-	
-numIterations=0
-
-# This is number of second to subtract for creation and modifaction time
-# This is used to force Facebook to display the files from 1 to XXX.
-enableFacebookTimeStamp=False
-startTime =1546300800
-adjustedTimeStampBy=1000
-
-# Open file for regex
-#externalFile = Path( externalFileToRegexOver ).read_text()
-
-#externalFile = Path( externalFileToRegexOver ).read_text()
-externalFile = ""
-
-pattern = ""
-#pattern = re.findall(r'^Flow: The Psychology of Optimal Experience[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
-
-#pattern = re.findall(r'^Negroes With Guns[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
-#pattern = re.findall(r'^The Subtle Art of Not[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
-#pattern = re.findall(r'^Flow: The Psychology of Optimal Experience[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
-#pattern = re.findall(r'^﻿Microsoft Word - matrix[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
-#pattern = re.findall(r'^Getting to Maybe[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
-#pattern = re.findall(r'^The 48 Laws of Power[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
-
-# Page number
-pnum=0
-
-# Totoal number of excerpt(s) I will print
-sumOfExcerpts = 0
-
-# The file name
-theFileName2 = ""
-
-# Processing commandline arguments
-
-def main (argv):
-	print ("Inside Main")
-
-"""
-
-def main (argv):
-	inputFileOrCopy=""
-	try:
-		opts, args = getopt.getopt( argv,"hi:d", ["input="] )
-		print ( opts )
-		print ( args )
-	except getopt.GetoptError:
-		print ("Use like this :: ./captionBG3.py 'My Clipping.txt'")
-		sys.exit(2)
-		
-	for opt, arg in opts:
-		if opt == "-h":
-			print ("Use like this ::::::: ./captionBG3.py 'My Clipping.txt'")
-"""
-
-# Tests if string is a file or string
+# Test if string is a file or string
 def checkIfFileOrString ( whatAmI ):
 	return os.path.isfile(whatAmI) 
 
 # Produce a single tile
-def singleTile( myString ):
+def singleTile( myString, SauthorsName, SexcerptTitle, StheFileName2, Spnum, SsumOfExcerpts  ):
 	print ( myString )
+	
+	# passed in variables
+	authorsName = SauthorsName
+	excerptTitle = SexcerptTitle
+	theFileName2 = StheFileName2	
+	pnum = Spnum
+	sumOfExcerpts = SsumOfExcerpts		
+	
 	# Add excerpt to the image
 	subprocess.call ('convert bgPapaer.jpg \( -size 950x950 -background "rgba(0,0,0,0)" -font /home/lex/share/Mo_De_Studio/audio_blog/OpenSans/OpenSans-ExtraBold.ttf -fill "#000000" caption:"%s" \( +clone -shadow 0x0+0+0 \) +swap -background "rgba(0,0,0,0)" -layers merge +repage \) -gravity center -composite -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+60 "%s" -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 "%s" -gravity north -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 %s %s' % ( myString , str( pnum )+"/"+ str (sumOfExcerpts), authorsName, excerptTitle, theFileName2), shell=True )
 
@@ -202,24 +128,43 @@ class MyExcerpt:
 				#print ("..."+self.listOfExcerpt4Pagination()[lengthOfList-1] )
 		return listWithDots
 
-def createTiles ():
+def createTiles ( CTPattern, CTexcerptTitle,  CTmaxNumberOfWordsForExcerpt, CTminumumNumberOfWordsForExcerpt, CTenableFacebookTimeStamp ):
+	# Total number of excerpt(s) I will print
+	sumOfExcerpts = 0
+	
+	# The file name
+	CTtheFileName2 = ""
+	
 	# Total number of excerpt(s) found in original document
 	sumPrintable = 0
+	
+	# Page number
+	CTpnum=0
+	
+	# This is number of second to subtract for creation and modifaction time
+	# This is used to force Facebook to display the files from 1 to XXX.
+	startTime =1546300800
+	adjustedTimeStampBy=1000
+	
+	externalFile = ""
+	pattern = ""
+	
 	# This list stores ommited excerpts
 	listOfOmitted=[]
 
 	# Build list of excerpts for tiles
 	displayedList=[]
 	
-	print ( "II pattern  ::  ")
-	print ( pattern )
-
+	# saving passed variales 
+	pattern = CTPattern
+	excerptTitle = CTexcerptTitle
+	maxNumberOfWordsForExcerpt = CTmaxNumberOfWordsForExcerpt
+	minumumNumberOfWordsForExcerpt = CTminumumNumberOfWordsForExcerpt
+	enableFacebookTimeStamp = CTenableFacebookTimeStamp
+	
+	
 	for excerpt in pattern:
 		mainData=MyExcerpt(excerpt, maxNumberOfWordsForExcerpt, minumumNumberOfWordsForExcerpt )
-		#print ( mainData.numOfUsableExceprts() )
-		#print ( mainData.returnOmitted () )
-		#print ( "OMITTING OMITTING : %s" % ( mainData.returnOmitted () )  )
-		#sumOfExcerpts+=mainData.sumOfTiles()
 
 		# If the value is not None add to the variable sumOfExcerpts
 		if ( mainData.sumOfTiles() ):
@@ -234,42 +179,31 @@ def createTiles ():
 		if ( mainData.listOfExcerpt4Pagination() ):
 
 			# I want to return the exerpts with dots here		
-			for copy in mainData.addLDotsistOfExcerpt4Pagination() :			
-			#for copy in mainData.listOfExcerpt4Pagination() :			
+			for copy in mainData.addLDotsistOfExcerpt4Pagination() :		
 				displayedList.append(copy)
 
 		if ( mainData.returnOmitted() ):
 			listOfOmitted.append ( mainData.returnOmitted() )
 
 
-
-		#mainData.sumOfTiles()
-		#print ( type ( mainData.numExcerptsByWord() ) )
-		#mainData.sumOfTiles()
-
-		
-	#print ( "III sumOfExcerpts  ::  "+ sumOfExcerpts )	
-		# Stats
-	#print ( '"%s" | %s Excerpt(s) Pages | %s From Origin Document' % ( excerptTitle[0:-2] ,sumOfExcerpts, sumPrintable ), end ="\n\n" )
 	print ( '"%s" | %s Excerpt(s) Pages | %s From Origin Document' % ( excerptTitle ,sumOfExcerpts, sumPrintable ), end ="\n\n" )
 
 	for copy in displayedList:
-		pnum+=1
+		CTpnum+=1
 		# This creates a name for the image
-		theFileName2 = str (pnum)+".png"
+		CTtheFileName2 = str (CTpnum)+".png"
 
 		# Display what is being placed on tile
-		#print ( excerptTitle+"\n" + copy )
+		print ( excerptTitle+"\n" + copy )
 
 		# Add excerpt to the image
-		#subprocess.call ('convert bgPapaer.jpg \( -size 950x950 -background "rgba(0,0,0,0)" -font /home/lex/share/Mo_De_Studio/audio_blog/OpenSans/OpenSans-ExtraBold.ttf -fill "#000000" caption:"%s" \( +clone -shadow 0x0+0+0 \) +swap -background "rgba(0,0,0,0)" -layers merge +repage \) -gravity center -composite -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+60 "%s" -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 "%s" -gravity north -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 %s %s' % ( copy , str( pnum )+"/"+ str (sumOfExcerpts), authorsName, excerptTitle, theFileName2), shell=True )
+		subprocess.call ('convert bgPapaer.jpg \( -size 950x950 -background "rgba(0,0,0,0)" -font /home/lex/share/Mo_De_Studio/audio_blog/OpenSans/OpenSans-ExtraBold.ttf -fill "#000000" caption:"%s" \( +clone -shadow 0x0+0+0 \) +swap -background "rgba(0,0,0,0)" -layers merge +repage \) -gravity center -composite -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+60 "%s" -gravity south -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 "%s" -gravity north -pointsize 40 -font /home/lex/share/python/ffmpegHelper/fonts/Typoster_ROCK_ON.otf -annotate +0+10 %s %s' % ( copy , str( CTpnum )+"/"+ str (sumOfExcerpts), authorsName, excerptTitle, CTtheFileName2), shell=True )
 
-		if ( enableFacebookTimeStamp ):
+		if ( enableFacebookTimeStamp == "t" ):
 			startTime-=adjustedTimeStampBy
-			os.utime(theFileName2 , ( startTime , startTime ))
+			os.utime(CTtheFileName2 , ( startTime , startTime ))
 
 	# Stats	
-	#print ( '"%s" | %s Excerpt(s) Pages | %s From Origin Document' % ( excerptTitle[0:-2] ,sumOfExcerpts, sumPrintable ), end ="\n\n" )
 	print ( '"%s" | %s Excerpt(s) Pages | %s From Origin Document' % ( excerptTitle ,sumOfExcerpts, sumPrintable ), end ="\n\n" )
 
 	# Display what was ommited if list is not blank
@@ -281,13 +215,13 @@ def createTiles ():
 # End createTiles ()
 			
 			
-			# Initial call to the main function
+# Initial call to the main function
 
 if __name__ == "__main__":
 	#main ( sys.argv[1:] )
 	parser = argparse.ArgumentParser( description="This creates images using excerpt(s) from a Kindle 'My Clippings.txt' file or a different file with same structure or a string." )
-
-	parser.add_argument( "-c", "--caption", help="Add a file or text for caption(s)", required='True', type=str )
+	excerptTitle = ''
+	parser.add_argument( "-c", "--caption", help="Add a file to extract caption or text for caption(s)", required='True', type=str )
 	parser.add_argument( "-a", "--authors", help="Author(s) name(s)", required='True', type=str )
 	parser.add_argument( "-t", "--title", help="Document title", required='True', type=str )
 	parser.add_argument( "-e", "--excerpt", help="Exerpt to search for", required='True', type=str )
@@ -300,36 +234,36 @@ if __name__ == "__main__":
 	parser.add_argument( "-rt", "--reversetimestamp", help="Reverse timestamps", default="f", type=str, choices=["t","f"] )
 
 	args = parser.parse_args()
-	#parser.parse_args()
-	#print ( args.echo )
-	#print ( args.input + " : " + args.input )
 	
-	#if ( args.caption ):
-	#if not args.caption in (None, ''):
-		#print ( "Test For File : %s" % (args.caption) )
-		#print ( checkIfFileOrString(args.caption) )
+	authorsName = ""
+	excerptTitle = ""
+	externalFileToRegexOver = ""
 	
-	#print ( "".join (args.caption.split()  ) )
+	# Page number
+	pnum=0
 	
 	# Checking if caption has content such as a file or string
 	if ( "".join (args.caption.split() ) and "".join (args.authors.split() ) and "".join (args.title.split() ) and "".join (args.excerpt.split() )  ):
-		print ("HAS CONTENT : "+ args.authors)
+		#print ("HAS CONTENT : "+ args.authors)
 		authorsName = args.authors
 		excerptTitle = quote(args.title)
 		externalFileToRegexOver = args.caption
-		externalFile = Path( externalFileToRegexOver ).read_text()
-		pattern = re.findall(r'^'+ args.excerpt +'[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
 		
 		# If the caption variable contains a string 
 		if checkIfFileOrString(args.caption) :
-			print ("This is a file" )
-			createTiles()
+			
+			externalFile = Path( externalFileToRegexOver ).read_text()
+			pattern = re.findall(r'^'+ args.excerpt +'[\s\S]+?\d{2}:\d{2} [AP]M\s+([^=]+)', externalFile, re.M )
+			
+			createTiles( pattern, excerptTitle, args.maxwords , args.minwords, args.reversetimestamp )
+			# Must pass vaiables
 		else :
 			print ("This is a string")
 			theFileName2 = "1.png"
 			sumOfExcerpts = args.denominator
 			pnum = args.numerator
-			singleTile ( args.caption )
+			singleTile ( args.caption, authorsName, excerptTitle, theFileName2, pnum, sumOfExcerpts  )
+			
 	
 	#if ( args.dryrun == "t" ):
 	#	print ( "DRY RUN BABY" )
